@@ -43,10 +43,10 @@ export const reviews = [
 ];
 
 // CART (temporary frontend data)
-export let cart: { userId: number; itemId: number; quantity: number; datetime: string }[] = [];
+export const cart: { userId: number; itemId: number; quantity: number; datetime: string }[] = [];
 
 // BOOKINGS (temporary frontend data)
-export let bookings: { userId: number; serviceId: number; datetime: string; note?: string }[] = [];
+export const bookings: { userId: number; serviceId: number; datetime: string; note?: string }[] = [];
 
 // APPLICATIONS (job applications)
-export let applications: { userId: number; jobId: number; resume: string; datetime: string }[] = [];
+export const applications: { userId: number; jobId: number; resume: string; datetime: string }[] = [];

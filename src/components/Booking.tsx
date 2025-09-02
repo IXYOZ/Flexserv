@@ -1,7 +1,6 @@
 import { useAppContext } from "@/context/AppContext";
 import React, { useState } from "react";
 import { DateInput } from "@heroui/date-input";
-import { calendar } from "@heroui/theme";
 import { useRouter } from "next/navigation";
 
 interface BookingProps {
@@ -11,10 +10,7 @@ interface BookingProps {
 
 export default function Booking({ postId }: BookingProps) {
   const context = useAppContext();
-  if (!context) return <div>No context found</div>;
   const router = useRouter();
-
-  const { bookings, removeBooking, currentUser } = context;
 
   const [showBookingForm, setShowBookingForm] = useState(false);
   const [formData, setFormData] = useState({
@@ -22,10 +18,12 @@ export default function Booking({ postId }: BookingProps) {
     date: "",
   });
 
+  const { bookings, removeBooking, currentUser } = context;
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  if (!context) return <div>No context found</div>;
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!currentUser) {
