@@ -1,9 +1,12 @@
-import Image from "next/image";
+  'use client'
+import Link from "next/link";
+
+
 
 export default function Home() {
   return (
-    <main className="flex h-screen items-center justify-center bg-green-100">
-     <h1 className="text-3xl font-bold underline text-blue-500"> Flexserv works!</h1>
-    </main>
+    <div className="p-4">
+      <p>Promotion ETC...</p>
+    </div>
   );
 }
