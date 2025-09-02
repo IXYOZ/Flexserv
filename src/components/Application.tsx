@@ -8,20 +8,18 @@ interface ApplicationProps {
 }
 export default function Application({ jobId, serviceId, onClose }: ApplicationProps) {
   const context = useAppContext();
-  if (!context) return <div>No applications context found</div>;
-
+  
   const { applications, applyApplication, removeApplication, currentUser } =
-    context;
-
-  //const appId = applications.find((a) => a.id === postId);
-  //if(!appId)  return <div>No Application</div>
-
+  context;
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
     resume: "",
-  });
+    });
+    
+    
+    if (!context) return <div>No applications context found</div>;
 
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
