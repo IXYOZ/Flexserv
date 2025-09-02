@@ -11,7 +11,7 @@ export default function JobDetailPage() {
   const context = useAppContext();
   const [showApplication, setShowApplication] = useState(false);
 
-  const { applications, applyApplication, removeApplication } = context;
+  //const { applications, applyApplication, removeApplication } = context;
 
   const job = jobs.find((j) => j.id === Number(id));
   console.log(job?.id);
