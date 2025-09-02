@@ -30,7 +30,7 @@ export default function ServiceDetailPage() {
           </div>
         </div>
         <div className="py-5 max-w-4xl">
-        <ProfileCard author={Number(id)}/>
+        <ProfileCard/>
         </div>
       </div>
     </div>
