@@ -1,22 +1,19 @@
 "use client";
 
 import SummaryCart from "@/components/summary/SummaryCart";
-import React, { useEffect } from "react";
-import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import SummaryBooking from "@/components/summary/summaryBooking";
 import SummaryApplication from "@/components/summary/summaryApplication";
+import { useParams } from "next/navigation";
 
 export default function SummaryPage() {
-  const searchParams = useSearchParams()
+  const params = useParams()
+  const type = params?.type || "cart"
+
   
-  const [activeType, setActiveType] = useState("cart")
+  const [activeType, setActiveType] = useState(type)
   
-  useEffect (() =>{
-    const type = searchParams.get("initialType")
-    if(type) setActiveType(type)
-    console.log("initialType :",type)
-  },[searchParams])
+
 
   return (
     <div className="bg-gray-200 rounded-2xl min-h-lvw">

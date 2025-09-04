@@ -46,7 +46,7 @@ export default function Application({ jobId, serviceId, onClose }: ApplicationPr
     alert("Your infomation saved");
     setFormData({  coverLetter: "", resume: "" });
     onClose()
-    router.push('/summary?initialType=application')
+    router.push('/summary/application')
   };
 
   const handleCancel = () =>{

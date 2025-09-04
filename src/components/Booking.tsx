@@ -44,7 +44,7 @@ export default function Booking({ postId }: BookingProps) {
       };
       addBooking(newBooking)
       alert("Booked");
-      router.push('/summary?initialType=booking')
+      router.push('/summary/booking')
     }
   };
 
