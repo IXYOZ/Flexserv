@@ -1,8 +1,8 @@
 // USERS
 export const users = [
-  { id: 1, name: "Steve", avatar: "/steve.png", bio: "Web dev and coffee lover", type: "user", rate: 5 },
-  { id: 2, name: "John", avatar: "/john", bio: "Massage therapist", type: "owner", rate: 4.5 },
-  { id: 3, name: "Alice", avatar: "/alice.png", bio: "Fasionista", type: "owner", rate: 5 }
+  { id: 1, name: "Steve", email:"steven@mail.m", phone:"0123", avatar: "/steve.png", bio: "Web dev and coffee lover", type: "user", rate: 5 },
+  { id: 2, name: "John", email:"john@mail.m", phone:"1234", avatar: "/john", bio: "Massage therapist", type: "owner", rate: 4.5 },
+  { id: 3, name: "Alice", email:"alice@mail.m", phone:"2345", avatar: "/alice.png", bio: "Fasionista", type: "owner", rate: 5 }
 ];
 
 // POSTS (feed, could reference service/job/item)
@@ -14,8 +14,8 @@ export const posts = [
 
 // SHOPS/ (Owner owns shop)
 export const listings = [
-  { id: 1, authorId: 2, name: "Deep Massage", type: "massage", description: "Deep massage fixed your pain" },
-  { id: 2, authorId: 3, name: "Korea Trending Shop", type: "cloth", description: "All trend cloth import from Korea" },
+  { id: 1, authorId: 2, name: "Deep Massage", type: "service", description: "Deep massage fixed your pain" },
+  { id: 2, authorId: 3, name: "Korea Trending Shop", type: "item", description: "All trend cloth import from Korea" },
 ];
 
 // SERVICES (linked to shop)

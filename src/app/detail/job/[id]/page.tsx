@@ -3,13 +3,24 @@
 import Application from "@/components/Application";
 import { useAppContext } from "@/context/AppContext";
 import { jobs } from "@/lib/mockData";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function JobDetailPage() {
   const { id } = useParams();
   const context = useAppContext();
   const [showApplication, setShowApplication] = useState(false);
+  const router = useRouter()
+
+  const {currentUser} = context
+
+  const handelOnClick = () => {
+    if(!currentUser){
+      alert("Please login")
+      router.push('/login')
+    }
+      setShowApplication(true)
+  }
 
   //const { applications, applyApplication, removeApplication } = context;
 
@@ -25,7 +36,7 @@ export default function JobDetailPage() {
             <p className="text-black">{job?.description} </p>
 
             <button
-              onClick={() => setShowApplication(true)}
+              onClick={handelOnClick}
               className="border bg-blue-500 rounded px-1"
             >
               {!showApplication && "Apply"}

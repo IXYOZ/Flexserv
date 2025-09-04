@@ -1,5 +1,6 @@
 import { useAppContext } from "@/context/AppContext";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 
 interface ApplicationProps {
   jobId: number;
@@ -8,81 +9,75 @@ interface ApplicationProps {
 }
 export default function Application({ jobId, serviceId, onClose }: ApplicationProps) {
   const context = useAppContext();
+  const router = useRouter()
   
   const { applications, applyApplication, removeApplication, currentUser } =
   context;
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
+    coverLetter: "",
     resume: "",
     });
     
-    
     if (!context) return <div>No applications context found</div>;
 
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   //handle data...
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault(); //safe refresh
-    if (!currentUser) return alert("please login frist");
+    if (!currentUser) {
+      router.push('/login')
+      return alert("please login frist");
+    }
     const newApplication = {
+      ...formData,
       id: Number(Date.now()), //generate id
       createAt: new Date().toISOString(),
       userId: currentUser.id,
       jobId,
       serviceId: Number(serviceId),
-      ...formData,
+      name: currentUser.name,
+      email: currentUser.email,
+      phone: currentUser.phone,
     };
     applyApplication(newApplication);
-    alert("Applied successfully");
-    setFormData({ name: "", email: "", phone: "", resume: "" });
+    alert("Your infomation saved");
+    setFormData({  coverLetter: "", resume: "" });
     onClose()
+    router.push('/summary?initialType=application')
   };
 
   const handleCancel = () =>{
-    setFormData({name: "", email: "", phone: "", resume: ""})
+    setFormData({ coverLetter: "", resume: ""})
     onClose()
   }
 
   return (
     <div>
       <h2 className="text-black ">Application Form</h2>
+      
+      {}
       <form onSubmit={handleSubmit}  className="py-2">
-        <input
-          type="text"
-          name="name"
-          value={formData.name}
+        <textarea
+          name="coverLetter"
+          placeholder="Cover Letter"
+          rows={4}
+          cols={5}
+          value={formData.coverLetter}
           onChange={handleChange}
-          className="border p-1 rounded w-full"
+          className="border p-1 rounded w-full text-black"
           required
         />
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          className="border p-1 rounded w-full"
-          required
-        />
-        <input
-          type="number"
-          name="phone"
-          value={formData.phone}
-          onChange={handleChange}
-          className="border p-1 rounded w-full"
-          required
-        />
-        <input
-          type="text"
+        <textarea
           name="resume"
+          placeholder="Resume"
+          rows={4}
+          cols={5}
           value={formData.resume}
           onChange={handleChange}
-          className="border p-1 rounded w-full"
+          className="border p-1 rounded w-full text-black"
           required
         />
 

@@ -98,7 +98,7 @@ export default function Cart() {
             ))}
           </ul>
           <div className="mb-4 pt-2 border-t font-bold text-right">
-            <Link href="/summary">Proceed to payment</Link>
+            <Link href="/summary?initialType=cart">Proceed to summary</Link>
           </div>
         </div>
       )}

@@ -16,6 +16,8 @@ type CartItem = {
 type BookingItem = {
   id: number;
   userId: number;
+  userName: string
+  phone: string
   serviceId: number;
   datetime: string;
   note?: string;
@@ -29,6 +31,7 @@ type ApplicationItem = {
   name: string;
   email: string;
   phone: string;
+  coverLetter: string
   resume: string;
   createAt: string;
 };

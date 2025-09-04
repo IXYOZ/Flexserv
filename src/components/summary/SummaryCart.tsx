@@ -21,12 +21,13 @@ export default function SummaryCart() {
 
 
   return (
-    <div className="bg-gray-100 h-96 px-4 ">
+    <div className="bg-gray-100 h-96 px-4 rounded ">
       {cart.map((c)=>(
         <li
         key={c.itemId}
         className="flex justify-between items-center border-b pb-1 pt-2 item-le"
       > 
+        
         <span className="text-black">{c.itemName}</span>
         <span className="text-black">${c.price * c.quantity} :</span>
         <div className="">
