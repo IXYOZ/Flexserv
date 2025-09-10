@@ -1,9 +1,45 @@
 "use client";
 
 import React, { createContext, useState, ReactNode, useContext } from "react";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/layout/Navbar";
 import { users } from "@/lib/mockData";
+import { items as mockItems } from "@/lib/mockData";
+import { jobs as mockJobs } from "@/lib/mockData";
+import { services as mockServices } from "@/lib/mockData";
 
+
+//provider
+
+type CreateItem ={
+  id: number
+  listingId: number
+  name: string
+  price: number
+  description: string
+}
+
+type CreateJobs = {
+  id: number
+  listingId: number
+  title: string
+  salary: number
+  location: string
+  description: string
+}
+
+type CreateServices = {
+  id: number
+  listingId: number
+  name: string
+  price: number
+  description: string
+}
+  //location : string
+  //openDate-closeDate
+  //period: string
+
+
+//user
 type CartItem = {
   userId: number;
   itemId: number;
@@ -36,24 +72,45 @@ type ApplicationItem = {
   createAt: string;
 };
 
+
+
+
 //Context type
 type AppContextType = {
   currentUser: (typeof users)[number] | null;
   setCurrentUser: (uesr: (typeof users)[number]) => void;
 
+  items: CreateItem[]
+  addItem:(item: CreateItem) => void
+  updateItem:(id: number, updateItem: Partial<CreateItem>) => void
+  removeItem:(id: number) => void
+
+  jobs: CreateJobs[]
+  addJob:(job: CreateJobs) => void
+  updateJob:(id: number, updateJob: Partial<CreateJobs>) => void
+  removeJob: (id: number) => void
+
+  services: CreateServices[]
+  addService: (service: CreateServices) => void
+  updateService: (id: number, updateService: Partial<CreateServices>) => void
+  removeService: (id: number) => void
+
+
   cart: CartItem[];
   addToCart: (item: CartItem) => void;
   updateItemQty: (id: number, qty: number) => void;
-  removeFromCart: (serviceId: number) => void;
+  removeFromCart: (cartId: number) => void;
   clearCart: () => void;
 
   bookings: BookingItem[];
   addBooking: (book: BookingItem) => void;
-  removeBooking: (serviceId: number) => void;
+  removeBooking: (id: number) => void;
 
   applications: ApplicationItem[];
   applyApplication: (app: ApplicationItem) => void;
-  removeApplication: (serviceId: number) => void;
+  removeApplication: (id: number) => void;
+
+
 };
 
 //Create context
@@ -66,9 +123,50 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
   const [currentUser, setCurrentUser] = useState<(typeof users)[number] | null>(
     null
   );
+
+  const [items, setItems] = useState<CreateItem[]>(mockItems)
+  const [jobs, setJobs] = useState<CreateJobs[]>(mockJobs)
+  const [services, setServices] = useState<CreateServices[]>(mockServices)
+
   const [cart, setCart] = useState<CartItem[]>([]);
   const [bookings, setBookings] = useState<BookingItem[]>([]);
   const [applications, setApplications] = useState<ApplicationItem[]>([]);
+  
+  //item
+  const addItem = (item: CreateItem) => {
+    setItems((prev) => [...prev,item])
+  }
+  const updateItem = (id: number, updateItem: Partial<CreateItem>) => {
+    setItems((prev) => 
+    prev.map((item) => (item.id === id? {...item, ...updateItem}: item)))
+  }
+  const removeItem = (id: number) => {
+    setItems((prev) => prev.filter((i) => i.id !== id))
+  }
+
+  //Job
+  const addJob = (job: CreateJobs) => {
+    setJobs((prev) => [...prev, job])
+  }
+  const updateJob = (id: number, updateJob: Partial<CreateJobs>) => {
+    setJobs((prev) =>
+    prev.map((job) => job.id === id? {...job, ...updateJob}: job))
+  }
+  const removeJob = (id: number) => {
+    setJobs((prev) => prev.filter((j) => j.id !== id))
+  }
+
+  //Service
+  const addService = (service: CreateServices) => {
+    setServices((prev) => [...prev, service])
+  }
+  const updateService = (id: number, updateService: Partial<CreateServices>) =>{
+    setServices((prev) =>
+    prev.map((service) => service.id === id? {...service,updateService}: service))
+  }
+  const removeService = (id: number) => {
+    setServices((prev) => prev.filter((s) => s.id !== id))
+  }
 
   //cart
   const addToCart = (item: CartItem) => {
@@ -116,8 +214,8 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
     setApplications((prev) => [...prev, item]);
   };
 
-  const removeApplication = (serviceId: number) => {
-    setApplications((prev) => prev.filter((s) => s.serviceId !== serviceId));
+  const removeApplication = (id: number) => {
+    setApplications((prev) => prev.filter((s) => s.serviceId !== id));
   };
 
   return (
@@ -125,6 +223,22 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
       value={{
         currentUser,
         setCurrentUser,
+        ////////////////
+        items,
+        addItem,
+        updateItem,
+        removeItem,
+        ////////////////
+        jobs,
+        addJob,
+        updateJob,
+        removeJob,
+        ////////////////
+        services,
+        addService,
+        updateService,
+        removeService,
+        ////////////////
         cart,
         addToCart,
         updateItemQty,

@@ -28,8 +28,9 @@ export default function Application({ jobId, serviceId, onClose }: ApplicationPr
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault(); //safe refresh
     if (!currentUser) {
+      alert("please login frist");
       router.push('/login')
-      return alert("please login frist");
+      return
     }
     const newApplication = {
       ...formData,

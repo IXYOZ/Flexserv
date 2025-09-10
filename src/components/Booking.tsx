@@ -31,6 +31,7 @@ export default function Booking({ postId }: BookingProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!currentUser) {
+      alert("Please login")
       router.push("/login");
     } else {
       const newBooking = {
@@ -61,7 +62,7 @@ export default function Booking({ postId }: BookingProps) {
       <h3 className="font-semibold text-lg mb-2 text-black">Make bookings</h3>
       <button
         onClick={handleBook}
-        className="border bg-blue-500 rounded px-1 hover:bg-green-500"
+        className="border bg-white text-black rounded px-1 hover:bg-green-500 hover:text-white"
       >
         {!showBookingForm && "Book"}
       </button>
@@ -96,13 +97,13 @@ export default function Booking({ postId }: BookingProps) {
           <div className="grid grid-cols-2 max-w-sm gap-4 pt-2">
             <button
               type="submit"
-              className="border bg-green-500 rounded max-w-3xs"
+              className="border bg-white rounded max-w-3xs hover:bg-green-500 hover:text-white"
             >
               Confirm
             </button>
             <button
               onClick={() => setShowBookingForm(false)}
-              className="border bg-red-500 rounded max-w-3xs"
+              className="border bg-white rounded max-w-3xs hover:bg-red-500 hover:text-white"
             >
               Cancel
             </button>

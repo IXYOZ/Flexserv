@@ -11,7 +11,7 @@ export default function Cart() {
   const router = useRouter();
   const context = useAppContext();
   const [showCart, setShowCart] = useState(false);
-  
+
   const {
     cart,
     addToCart,
@@ -19,45 +19,45 @@ export default function Cart() {
     removeFromCart,
     clearCart,
     currentUser,
-    } = context;
-    
-    if (!context) return <div>No items context found</div>;
+  } = context;
+
+  if (!context) return <div>No items context found</div>;
   const cartItem = cart.find((c) => c.itemId === Number(id));
 
   const item = items.find((i) => i.id === Number(id));
-  
-  
+
   if (!item) return <div>No Item</div>;
   const addItemToCard = () => {
     if (!currentUser) {
+      alert("Please login")
       router.push("/login");
       return;
-      }
-      const newQuantity = cartItem ? cartItem.quantity + 1 : 1;
-      addToCart({
-        userId: currentUser.id,
-        itemId: item.id,
-        itemName: item.name,
-        price: item.price,
-        quantity: newQuantity,
-        datetime: "",
-        });
-        setShowCart(true);
-        };
-        
-        function updateQty(id: number, qty: number) {
-          if (qty < 1) qty = 1;
-          updateItemQty(id, qty);
-          }
-          
-          return (
-            <div>
-        <button
-          onClick={addItemToCard }
-          className="border bg-blue-500 rounded px-1 hover:bg-blue-700"
-        >
-          Add to Cart
-        </button>
+    }
+    const newQuantity = cartItem ? cartItem.quantity + 1 : 1;
+    addToCart({
+      userId: currentUser.id,
+      itemId: item.id,
+      itemName: item.name,
+      price: item.price,
+      quantity: newQuantity,
+      datetime: "",
+    });
+    setShowCart(true);
+  };
+
+  function updateQty(id: number, qty: number) {
+    if (qty < 1) qty = 1;
+    updateItemQty(id, qty);
+  }
+
+  return (
+    <div>
+      <button
+        onClick={addItemToCard}
+        className="border bg-blue-500 rounded px-1 hover:bg-blue-700"
+      >
+        Add to Cart
+      </button>
       {showCart && currentUser?.id && (
         <div className="p-4 border rounded shadow bg-gray-500">
           <h2 className="text-xl font-bold mb-2">Your Order</h2>

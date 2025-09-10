@@ -2,7 +2,7 @@
 
 import { users, listings, services } from "@/lib/mockData";
 import { useParams } from "next/navigation";
-import ServiceCard from "@/components/ServiceCard";
+import ListingCard from "@/components/ListingCard";
 
 export default function ProfilePage() {
   const { userId } = useParams();
@@ -10,10 +10,9 @@ export default function ProfilePage() {
   const user = users.find((u) => u.id === Number(userId));
   if (!user) return <div>User not found</div>;
 
-  const shop = listings.find((s) => s.authorId === user.id);
+  const listing = listings.find((s) => s.authorId === user.id);
 
   //filter service by shop
-  const shopServices = services.filter((s) => s.id === shop?.id);
 
   return (
     <div className="p-4">
@@ -28,13 +27,13 @@ export default function ProfilePage() {
       </div>
       <p>{user.bio}</p>
 
-      {shop && (
+      {listing && (
         <>
-          <h2 className="text-xl font-semibold mb-2">Services</h2>
+          <h2 className="text-xl font-semibold mb-2">Listing</h2>
           <div className=" grid grid-cols-2 gap-4">
-            {shopServices.map((service) => (
-              <ServiceCard key={service.id} service={service} />
-            ))}
+           
+              <ListingCard key={listing.id} listing={listing} />
+          
           </div>
         </>
       )}

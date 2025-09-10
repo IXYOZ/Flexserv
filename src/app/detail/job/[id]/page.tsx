@@ -18,6 +18,7 @@ export default function JobDetailPage() {
     if(!currentUser){
       alert("Please login")
       router.push('/login')
+      return
     }
       setShowApplication(true)
   }

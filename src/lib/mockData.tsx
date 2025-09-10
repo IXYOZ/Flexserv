@@ -1,8 +1,8 @@
 // USERS
 export const users = [
   { id: 1, name: "Steve", email:"steven@mail.m", phone:"0123", avatar: "/steve.png", bio: "Web dev and coffee lover", type: "user", rate: 5 },
-  { id: 2, name: "John", email:"john@mail.m", phone:"1234", avatar: "/john", bio: "Massage therapist", type: "owner", rate: 4.5 },
-  { id: 3, name: "Alice", email:"alice@mail.m", phone:"2345", avatar: "/alice.png", bio: "Fasionista", type: "owner", rate: 5 }
+  { id: 2, name: "John", email:"john@mail.m", phone:"1234", avatar: "/john", bio: "Massage therapist", type: "user", rate: 4.5 },
+  { id: 3, name: "Alice", email:"alice@mail.m", phone:"2345", avatar: "/alice.png", bio: "Fasionista", type: "user", rate: 5 }
 ];
 
 // POSTS (feed, could reference service/job/item)
@@ -16,6 +16,7 @@ export const posts = [
 export const listings = [
   { id: 1, authorId: 2, name: "Deep Massage", type: "service", description: "Deep massage fixed your pain" },
   { id: 2, authorId: 3, name: "Korea Trending Shop", type: "item", description: "All trend cloth import from Korea" },
+  { id: 3, authorId: 1, name: "Steve's Job", type: "job", description: "Recruiter" },
 ];
 
 // SERVICES (linked to shop)
@@ -32,7 +33,7 @@ export const items = [
 
 // JOBS (optional, can be extended)
 export const jobs = [
-  { id: 1, postId: 1, title: "Looking for Designer", description: "Need freelance designer for website", salary: 500, location: "Remote" }
+  { id: 1, listingId: 3, title: "Looking for Designer", description: "Need freelance designer for website", salary: 500, location: "Remote" }
 ];
 
 // REVIEWS (linked to user & shop/service)
