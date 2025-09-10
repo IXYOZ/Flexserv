@@ -15,7 +15,7 @@ export default function Setting() {
   return (
     <div >
       <DropDown
-        label="S"
+        label="🔧"
         options={["Profile","Type : "+currentUser?.type, "Account setting", "Manage product"]}
         onSelect={(value) => {
           switch (value) {

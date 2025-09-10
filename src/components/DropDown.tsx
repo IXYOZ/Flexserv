@@ -33,7 +33,7 @@ export default function DropDown({ label, options, onSelect }: DropdownProps) {
     <div ref={ref} className="relative inline-block text-left">
       <button
         onClick={() => setOpen(!open)}
-        className="bg-gray-200 px-4  py-2 rounded hover:bg-gray-400 text-black"
+        className="bg-gray-200 px-3  py-1 rounded hover:bg-gray-400 text-black"
       >
         {selected}
       </button>

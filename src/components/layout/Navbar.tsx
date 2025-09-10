@@ -1,7 +1,5 @@
 import Link from "next/link";
 import { useAppContext } from "@/context/AppContext";
-import Cart from "../Cart";
-import { users } from "@/lib/mockData";
 import CartDropDown from "../navbar/CartDropDown";
 import { useState } from "react";
 import "@tailwindplus/elements";
@@ -9,9 +7,8 @@ import Setting from "../navbar/Setting";
 
 export default function Navbar() {
   const { currentUser, cart, bookings, applications } = useAppContext();
-  const [cartDrop, setCartDrop] = useState(false);
 
-  const noti = cart.length + bookings.length + applications.length;
+  
 
   return (
     <nav className="bg-white shadow p-2 flex justify-between items-center sticky top-0 h-15 w-full z-50">
@@ -35,15 +32,13 @@ export default function Navbar() {
           </Link>
         )}
         <div className="flex space-x-2">
-          <button
-            onClick={() => setCartDrop(!cartDrop)}
-            className="border border-red-500 px-2 text-red-500 rounded"
-          >
-            {noti > 0 ? noti : 0}
-          </button>
-          <div>{cartDrop && <CartDropDown />}</div>
-          {currentUser&&(
-            <div><Setting/></div>
+          <div className="flex justify-center items-center">
+            <CartDropDown />
+          </div>
+          {currentUser && (
+            <div>
+              <Setting />
+            </div>
           )}
         </div>
       </div>
