@@ -22,7 +22,7 @@ export default function Jobs() {
   const listJobs = jobsWithAuthor.filter((ja) => ja.authorId === currentUser?.id);
 
   return (
-    <div className="">
+    <div className="p-2">
       <button
         onClick={() => setShowFormJob(!showformJob)}
         className="border bg-white px-2 py-1 rounded hover:bg-blue-500 hover:text-white"
@@ -35,7 +35,7 @@ export default function Jobs() {
           {listJobs.map((lj) => (
             <li
               key={`${lj?.id}-${lj?.authorId}`}
-              className="grid grid-cols-2 gap-8 border-2 sm:grid-cols-2 border-white p-2 rounded"
+              className="grid grid-cols-2 gap-8 border-1 sm:grid-cols-2 border-black p-2 rounded"
             >
               <div className="grid grid-cols-2">
                 <div className="grid grid-rows-2">

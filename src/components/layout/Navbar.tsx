@@ -13,8 +13,8 @@ export default function Navbar() {
   return (
     <nav className="bg-white shadow p-2 flex justify-between items-center sticky top-0 h-15 w-full z-50">
       <div className="flex items-center space-x-4">
-        <Link href="/feed" className="font-bold text-lg text-blue-500">
-          FlexServ
+        <Link href="/feed">
+          <h1 className="font-bold text-lg text-blue-600 hover:scale-110">FlexServ</h1>
         </Link>
       </div>
 
@@ -22,7 +22,7 @@ export default function Navbar() {
         {currentUser ? (
           <Link
             href={`/profile/${currentUser.id}`}
-            className="text-blue-500 hover:underline"
+            className="text-blue-500 hover:underline hover:font-semibold hover:scale-105"
           >
             {currentUser.name}
           </Link>
@@ -32,7 +32,7 @@ export default function Navbar() {
           </Link>
         )}
         <div className="flex space-x-2">
-          <div className="flex justify-center items-center">
+          <div className="flex justify-center items-center hover:scale-110">
             <CartDropDown />
           </div>
           {currentUser && (

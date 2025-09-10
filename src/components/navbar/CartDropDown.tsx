@@ -44,7 +44,7 @@ export default function CartDropDown() {
         onClick={() => setOpen(!open)}
         className="border border-red-400 text-red px-2 rounded-md hover:border-red-500 hover:bg-red-200"
       >
-        <p className="text-red-500 font-semibold">{noti ? noti : 0}</p>
+        <p className="text-red-300 font-semibold">{noti ? noti : 0}</p>
       </button>
 
       {open && (

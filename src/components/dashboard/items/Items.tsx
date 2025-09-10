@@ -27,7 +27,7 @@ export default function Items() {
   );
 
   return (
-    <div className="">
+    <div className="p-2">
       <button onClick={() => setShowFormItem(!showFormItem)} className="border bg-white px-2 py-1 rounded">+</button>
       {showFormItem&&(
         <CreateItem onClose= {() => setShowFormItem(false)}/>
@@ -37,7 +37,7 @@ export default function Items() {
           {listItems.map((li) => (
             <li
               key={`${li?.id}-${li?.authorId}`}
-              className="grid grid-cols-2 gap-8 border-2 sm:grid-cols-2 border-white p-2 rounded"
+              className="grid grid-cols-2 gap-8 border-1 sm:grid-cols-2 border-black p-2 rounded"
             >
               <div className="grid grid-cols-2">
                 <div className="grid grid-rows-2">
