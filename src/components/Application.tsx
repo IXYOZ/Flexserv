@@ -32,7 +32,7 @@ export default function Application({ jobId, serviceId, onClose }: ApplicationPr
       router.push('/login')
       return
     }
-    const newApplication = {
+    applyApplication  ({
       ...formData,
       id: Number(Date.now()), //generate id
       createAt: new Date().toISOString(),
@@ -42,8 +42,8 @@ export default function Application({ jobId, serviceId, onClose }: ApplicationPr
       name: currentUser.name,
       email: currentUser.email,
       phone: currentUser.phone,
-    };
-    applyApplication(newApplication);
+      status: "pending"
+    })
     alert("Your infomation saved");
     setFormData({  coverLetter: "", resume: "" });
     onClose()

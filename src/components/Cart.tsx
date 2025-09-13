@@ -21,31 +21,36 @@ export default function Cart() {
     currentUser,
   } = context;
 
+  const userCart = cart.filter((c) => c.userId === currentUser?.id);
   if (!context) return <div>No items context found</div>;
-  const cartItem = cart.find((c) => c.itemId === Number(id));
-
+  
   const item = items.find((i) => i.id === Number(id));
+  const cartItem = cart.find((c) => c.id === `${currentUser?.id}-${item?.id}`);
 
   if (!item) return <div>No Item</div>;
   const addItemToCard = () => {
     if (!currentUser) {
-      alert("Please login")
+      alert("Please login");
       router.push("/login");
       return;
     }
     const newQuantity = cartItem ? cartItem.quantity + 1 : 1;
-    addToCart({
+    addToCart ({
+      id: `${currentUser.id}-${item.id}`,
       userId: currentUser.id,
+      userName: currentUser.name,
       itemId: item.id,
       itemName: item.name,
       price: item.price,
       quantity: newQuantity,
       datetime: "",
-    });
+      status: "pending",
+    })
+
     setShowCart(true);
   };
 
-  function updateQty(id: number, qty: number) {
+  function updateQty(id: string, qty: number) {
     if (qty < 1) qty = 1;
     updateItemQty(id, qty);
   }
@@ -61,33 +66,29 @@ export default function Cart() {
       {showCart && currentUser?.id && (
         <div className="p-4 border rounded shadow bg-gray-500">
           <h2 className="text-xl font-bold mb-2">Your Order</h2>
+
           <ul className="space-y-2">
-            {cart.map((c) => (
+            {cart.filter(c => c.userId === currentUser.id).map((c) => (
               <li
                 key={c.itemId}
                 className="flex justify-between items-center border-b pb-1 item-le"
               >
                 <span>${c.price * c.quantity} :</span>
                 <div className="">
-                  {cart.map((c) => (
-                    <input
-                      key={c.itemId}
-                      value={c.quantity}
-                      onChange={(e) =>
-                        updateQty(item.id, Number(e.target.value))
-                      }
-                      type="number"
-                      max={999}
-                      onBlur={() => {
-                        if (c.quantity < 1) updateItemQty(c.itemId, 1);
-                      }}
-                      className="bg-white text-black text-center max-w-8"
-                    />
-                  ))}
+                  <input
+                    value={c.quantity}
+                    onChange={(e) => updateQty(c.id, Number(e.target.value))}
+                    type="number"
+                    max={999}
+                    onBlur={() => {
+                      if (c.quantity < 1) updateItemQty(c.id, 1);
+                    }}
+                    className="bg-white text-black text-center max-w-8"
+                  />
                 </div>
                 <button
                   onClick={() => {
-                    removeFromCart(c.itemId);
+                    removeFromCart(c.id);
                     setShowCart(false);
                   }}
                   className="bg-white text-red-600 px-2 py-1 rounded hover:bg-red-200"

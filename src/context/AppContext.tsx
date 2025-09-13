@@ -7,6 +7,7 @@ import { items as mockItems } from "@/lib/mockData";
 import { jobs as mockJobs } from "@/lib/mockData";
 import { services as mockServices } from "@/lib/mockData";
 
+type User = (typeof users)[number]
 
 //provider
 
@@ -16,6 +17,7 @@ type CreateItem ={
   name: string
   price: number
   description: string
+  status?: string | null
 }
 
 type CreateJobs = {
@@ -25,6 +27,7 @@ type CreateJobs = {
   salary: number
   location: string
   description: string
+  status?: string | null
 }
 
 type CreateServices = {
@@ -33,6 +36,7 @@ type CreateServices = {
   name: string
   price: number
   description: string
+  status?: string | null
 }
   //location : string
   //openDate-closeDate
@@ -41,12 +45,15 @@ type CreateServices = {
 
 //user
 type CartItem = {
+  id: string
   userId: number;
   itemId: number;
+  userName: string
   itemName: string;
   price: number;
   quantity: number;
   datetime: string;
+  status: "pending" | "approved" | "cenceled" | "complete"
 };
 
 type BookingItem = {
@@ -57,6 +64,7 @@ type BookingItem = {
   serviceId: number;
   datetime: string;
   note?: string;
+  status: "pending" | "approved" | "cenceled" | "complete"
 };
 
 type ApplicationItem = {
@@ -70,6 +78,7 @@ type ApplicationItem = {
   coverLetter: string
   resume: string;
   createAt: string;
+  status: "pending" | "approved" | "rejected"
 };
 
 
@@ -77,8 +86,8 @@ type ApplicationItem = {
 
 //Context type
 type AppContextType = {
-  currentUser: (typeof users)[number] | null;
-  setCurrentUser: (uesr: (typeof users)[number]) => void;
+  currentUser: User | null;
+  setCurrentUser: (uesr: (typeof users)[number]| null) => void;
 
   items: CreateItem[]
   addItem:(item: CreateItem) => void
@@ -98,8 +107,9 @@ type AppContextType = {
 
   cart: CartItem[];
   addToCart: (item: CartItem) => void;
-  updateItemQty: (id: number, qty: number) => void;
-  removeFromCart: (cartId: number) => void;
+  updateItemQty: (id: string, qty: number) => void;
+  updateStatus: (id: string , status: string) => void
+  removeFromCart: (id: string) => void;
   clearCart: () => void;
 
   bookings: BookingItem[];
@@ -120,7 +130,7 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 export const AppProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [currentUser, setCurrentUser] = useState<(typeof users)[number] | null>(
+  const [currentUser, setCurrentUser] = useState<User | null>(
     null
   );
 
@@ -189,15 +199,25 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
     });
   };
 
-  const updateItemQty = (id: number, qty: number) => {
+  const updateItemQty = (id: string, qty: number) => {
     setCart((prev) =>
       prev.map((item) =>
-        item.itemId === id ? { ...item, quantity: qty } : item
+        item.id === id ? { ...item, quantity: qty } : item
       )
     );
   };
-  const removeFromCart = (itemId: number) => {
-    setCart((prev) => prev.filter((s) => s.itemId !== itemId));
+
+  const updateStatus = (id: string, status: any) => {
+    setCart((prev) =>
+      prev.map((item) =>
+        item.id === id? {...item, status: status} : status
+      )
+    )
+  }
+
+
+  const removeFromCart = (id: string) => {
+    setCart((prev) => prev.filter((s) => s.id !== id));
   };
   const clearCart = () => setCart([]);
 
@@ -242,6 +262,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
         cart,
         addToCart,
         updateItemQty,
+        updateStatus,
         removeFromCart,
         clearCart,
         bookings,

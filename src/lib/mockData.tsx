@@ -21,19 +21,19 @@ export const listings = [
 
 // SERVICES (linked to shop)
 export const services = [
-  { id: 1, listingId: 1, name: "Full Body Relaxing Massage", price: 200, description: "Relaxing full body massage" },
+  { id: 1, listingId: 1, name: "Full Body Relaxing Massage", price: 200, description: "Relaxing full body massage",status: null },
   { id: 2, listingId: 1, name: "Foot Massage", price: 400, description: "Pain points therapy" },
 ];
 
 
 // ITEMS (linked to shop)
 export const items = [
-  { id: 3, listingId: 2, name: "Winter fur cloth", price: 999, description: "Winter cloth from Korea" },
+  { id: 3, listingId: 2, name: "Winter fur cloth", price: 999, description: "Winter cloth from Korea", status: null  },
 ];
 
 // JOBS (optional, can be extended)
 export const jobs = [
-  { id: 1, listingId: 3, title: "Looking for Designer", description: "Need freelance designer for website", salary: 500, location: "Remote" }
+  { id: 1, listingId: 3, title: "Looking for Designer", description: "Need freelance designer for website", salary: 500, location: "Remote", status: null  }
 ];
 
 // REVIEWS (linked to user & shop/service)
@@ -44,10 +44,10 @@ export const reviews = [
 ];
 
 // CART (temporary frontend data)
-export const cart: { userId: number; itemId: number; quantity: number; datetime: string }[] = [];
+export const cart: { userId: number; itemId: number; quantity: number; datetime: string, status: string }[] = [];
 
 // BOOKINGS (temporary frontend data)
-export const bookings: { userId: number; serviceId: number; datetime: string; note?: string }[] = [];
+export const bookings: { userId: number; serviceId: number; datetime: string; note?: string, status: string  }[] = [];
 
 // APPLICATIONS (job applications)
-export const applications: { userId: number; jobId: number; resume: string; datetime: string }[] = [];
+export const applications: { userId: number; jobId: number; resume: string; datetime: string, status: string  }[] = [];

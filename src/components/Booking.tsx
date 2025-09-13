@@ -34,16 +34,16 @@ export default function Booking({ postId }: BookingProps) {
       alert("Please login")
       router.push("/login");
     } else {
-      const newBooking = {
+      addBooking ( {
         id: Number(Date.now),
         userId: currentUser?.id,
         userName: currentUser?.name,
         phone: currentUser?.phone,
         serviceId: Number(id),
         datetime: formData.date,
-        note: formData.note
-      };
-      addBooking(newBooking)
+        note: formData.note,
+        status: "pending"
+      })
       alert("Booked");
       router.push('/summary/booking')
     }
