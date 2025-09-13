@@ -108,7 +108,7 @@ type AppContextType = {
   cart: CartItem[];
   addToCart: (item: CartItem) => void;
   updateItemQty: (id: string, qty: number) => void;
-  updateStatus: (id: string , status: string) => void
+  updateStatus: (id: string , status: CartItem["status"]) => void
   removeFromCart: (id: string) => void;
   clearCart: () => void;
 
@@ -207,7 +207,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
     );
   };
 
-  const updateStatus = (id: string, status: any) => {
+  const updateStatus = (id: string, status: CartItem["status"]) => {
     setCart((prev) =>
       prev.map((item) =>
         item.id === id? {...item, status: status} : item
