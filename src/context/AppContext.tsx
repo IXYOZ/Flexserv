@@ -210,7 +210,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
   const updateStatus = (id: string, status: any) => {
     setCart((prev) =>
       prev.map((item) =>
-        item.id === id? {...item, status: status} : status
+        item.id === id? {...item, status: status} : item
       )
     )
   }
@@ -220,6 +220,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
     setCart((prev) => prev.filter((s) => s.id !== id));
   };
   const clearCart = () => setCart([]);
+
 
   //bookings
   const addBooking = (item: BookingItem) => {
