@@ -1,7 +1,7 @@
 "use client";
 
 import { useAppContext } from "@/context/AppContext";
-import { items } from "@/lib/mockData";
+import { items, listings } from "@/lib/mockData";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
@@ -11,6 +11,7 @@ export default function Cart() {
   const router = useRouter();
   const context = useAppContext();
   const [showCart, setShowCart] = useState(false);
+  const [showAddBtn, setShowAddBtn] = useState(true)
 
   const {
     cart,
@@ -21,7 +22,7 @@ export default function Cart() {
     currentUser,
   } = context;
 
-  const userCart = cart.filter((c) => c.userId === currentUser?.id);
+  
   if (!context) return <div>No items context found</div>;
   
   const item = items.find((i) => i.id === Number(id));
@@ -39,14 +40,14 @@ export default function Cart() {
       id: `${currentUser.id}-${item.id}`,
       userId: currentUser.id,
       userName: currentUser.name,
+      listingId: item.listingId,
       itemId: item.id,
       itemName: item.name,
       price: item.price,
       quantity: newQuantity,
       datetime: "",
-      status: "pending",
     })
-
+    setShowAddBtn(false)
     setShowCart(true);
   };
 
@@ -57,12 +58,14 @@ export default function Cart() {
 
   return (
     <div>
-      <button
+      {showAddBtn&& (
+        <button
         onClick={addItemToCard}
         className="border bg-blue-500 rounded px-1 hover:bg-blue-700"
       >
         Add to Cart
       </button>
+      )}
       {showCart && currentUser?.id && (
         <div className="p-4 border rounded shadow bg-gray-500">
           <h2 className="text-xl font-bold mb-2">Your Order</h2>
@@ -90,6 +93,7 @@ export default function Cart() {
                   onClick={() => {
                     removeFromCart(c.id);
                     setShowCart(false);
+                    setShowAddBtn(true)
                   }}
                   className="bg-white text-red-600 px-2 py-1 rounded hover:bg-red-200"
                 >
@@ -98,8 +102,8 @@ export default function Cart() {
               </li>
             ))}
           </ul>
-          <div className="mb-4 pt-2 border-t font-bold text-right">
-            <Link href="/summary/cart">Proceed to summary</Link>
+          <div className="mb-4 p-2 border border-white font-bold text-center hover:bg-amber-600 hover:text-white">
+            <Link href="/summary/cart">Proceed to cart</Link>
           </div>
         </div>
       )}

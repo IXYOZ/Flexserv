@@ -48,13 +48,22 @@ type CartItem = {
   id: string
   userId: number;
   itemId: number;
+  listingId: number
   userName: string
   itemName: string;
   price: number;
   quantity: number;
   datetime: string;
-  status: "pending" | "approved" | "cenceled" | "complete"
+  
 };
+
+type OrderItem = {
+  orderId: string
+  userId: number
+  items: CartItem[]
+  status: "pending" | "approved" | "cenceled" | "complete"
+  datetime: string
+}
 
 type BookingItem = {
   id: number;
@@ -108,9 +117,12 @@ type AppContextType = {
   cart: CartItem[];
   addToCart: (item: CartItem) => void;
   updateItemQty: (id: string, qty: number) => void;
-  updateStatus: (id: string , status: CartItem["status"]) => void
   removeFromCart: (id: string) => void;
   clearCart: () => void;
+
+  orderItem: OrderItem[]
+  createOrder: (cartItem: CartItem[], userId: number) => void
+  updateStatus: (id: string , status: OrderItem["status"]) => void
 
   bookings: BookingItem[];
   addBooking: (book: BookingItem) => void;
@@ -139,6 +151,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
   const [services, setServices] = useState<CreateServices[]>(mockServices)
 
   const [cart, setCart] = useState<CartItem[]>([]);
+  const [orderItem, setOrderItem] = useState<OrderItem[]>([])
   const [bookings, setBookings] = useState<BookingItem[]>([]);
   const [applications, setApplications] = useState<ApplicationItem[]>([]);
   
@@ -153,6 +166,8 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
   const removeItem = (id: number) => {
     setItems((prev) => prev.filter((i) => i.id !== id))
   }
+
+  
 
   //Job
   const addJob = (job: CreateJobs) => {
@@ -207,10 +222,24 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
     );
   };
 
-  const updateStatus = (id: string, status: CartItem["status"]) => {
-    setCart((prev) =>
-      prev.map((item) =>
-        item.id === id? {...item, status: status} : item
+  //OrderItem
+  const createOrder = (cartItems: CartItem[], userId: number)=>{
+    const newOder: OrderItem ={
+      orderId: Date.now().toString(),
+      userId,
+      items: cartItems,
+      status:"pending",
+      datetime: new Date().toISOString()
+    }
+    setOrderItem(prev => [...prev, newOder])
+
+    // setCart(prev => prev.filter(c => !cartItems.some(ci => ci.id === c.id)))
+  }
+
+  const updateStatus = (orderId: string, status: OrderItem["status"]) => {
+    setOrderItem((prev) =>
+      prev.map((order) =>
+        order.orderId === orderId? {...order, status: status} : order
       )
     )
   }
@@ -263,8 +292,10 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
         cart,
         addToCart,
         updateItemQty,
-        updateStatus,
         removeFromCart,
+        orderItem,
+        createOrder,
+        updateStatus,
         clearCart,
         bookings,
         addBooking,

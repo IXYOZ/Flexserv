@@ -5,7 +5,7 @@ import { listings, services } from "@/lib/mockData";
 export default function SummaryBooking() {
   const context = useAppContext();
 
-  const { currentUser, bookings } = context;
+  const { currentUser, bookings, removeBooking } = context;
   if (!currentUser) return <div>Please login to see your bookings.</div>;
 
   const myBooking = bookings.filter((b) => b.userId === currentUser?.id);
@@ -33,6 +33,10 @@ export default function SummaryBooking() {
                 <div className="flex space-x-4">
                   <p className="text-black">Date: {booking.datetime}</p>
                   <p className="text-black">Price: {service?.price}</p>
+                </div>
+                <div className="space-x-2 pt-2">
+                {/* <button className="border border-yellow-600 rounded px-2 hover:text-white hover:bg-yellow-500">Edit</button> */}
+                <button className="border border-red-600 rounded px-2 hover:text-white hover:bg-red-500">Cancel</button>
                 </div>
               </div>
             );
