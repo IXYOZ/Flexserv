@@ -12,6 +12,7 @@ export default function NotiDropDown() {
     cart,
     bookings,
     applications,
+    orderItem,
     updateItemQty,
     removeFromCart,
     currentUser,
@@ -38,7 +39,7 @@ export default function NotiDropDown() {
   let filteredBooking =[]
   let filteredApplication =[]
   if(currentUser.type === "provider"){
-   filteredCart = cart.filter(c => listings.find(l => l.id === items.find(i => i.id === c.itemId)?.listingId)?.authorId === currentUser.id)
+   filteredCart = orderItem.filter(order => order.items.some(item => listings.find(l => l.id === item.listingId)?.authorId === currentUser.id))
    filteredBooking = bookings.filter(b => listings.find(l => l.id === services.find(s => s.id === b.serviceId)?.listingId)?.authorId === currentUser.id)
    filteredApplication = applications.filter(a => listings.find(a => a.id === jobs.find(j => j.id === a.id)?.listingId)?.authorId === currentUser.id)
   }else{

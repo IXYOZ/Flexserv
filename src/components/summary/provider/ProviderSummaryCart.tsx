@@ -4,41 +4,56 @@ import { useAppContext } from "@/context/AppContext";
 import { items, listings } from "@/lib/mockData";
 
 export default function ProviderSummaryCart() {
-  const { currentUser, cart, updateStatus, removeFromCart } = useAppContext();
+  const { currentUser, cart, orderItem, updateStatus, removeFromCart } =
+    useAppContext();
   if (!currentUser) return <div>Please login</div>;
 
-  const filteredListingCart = cart.filter(
-    (c) =>
-      listings.find(
-        (l) => l.id === items.find((i) => i.id === c.itemId)?.listingId
-      )?.authorId === currentUser.id
+  const providerListings = listings.filter(
+    (l) => l.authorId === currentUser.id
   );
 
-
-  const providerCart = cart.filter((c) => listings.filter((l) => l.authorId === currentUser.id).some((l) => l.id === c.listingId))
+  const providerCart = orderItem.filter((o) =>
+    providerListings.some((l) => l.id === o.listingId)
+  );
 
   return (
     <div className="bg-gray-100 h-96 px-4 rounded ">
-      <div className="font-semibold">Provider</div>
+      <div className="font-semibold border p-2"><h1 className="text-center">Provider orders summary</h1></div>
       <ul className="grid grid-rows-3 md:grid-rows-6">
-        {providerCart.map((c) => (
-          <li
-            key={c.userId - c.itemId}
+        {providerCart.map((o) => (
+          <div
+            key={o.orderId}
             className="flex justify-between items-center border-b pb-1 pt-2 item-le"
           >
-            <span className="text-black">{c.userName}</span>
-            <span className="text-black">{c.itemName}</span>
-            <span className="text-black">${c.price * c.quantity} :</span>
-            <div className="">
-              <span>{c.quantity}</span>
-            </div>
-            <span className="text-green-500">{c.status || "pending"}</span>
+            <div>{o.orderId}</div>
+            <span
+                className={`${
+                  o.status === "pending"
+                    ? "text-yellow-500"
+                    : o.status === "approved"
+                    ? "text-green-500"
+                    : "text-gray-500"
+                }`}
+              >
+                {o.status}
+              </span>
 
+            {o.items.map((item) => (
+              <div key={item.id} className="flex space-x-2">
+                <span className="text-black">{item.itemName}</span>
+                <span className="text-black">
+                  ${item.price * item.quantity} :
+                </span>
+                <div className="">
+                  <span>{item.quantity}</span>
+                </div>
+              </div>
+            ))}
             {currentUser.type === "provider" && (
               <div className="space-x-2">
                 <button
                   onClick={() => {
-                    updateStatus(c.id, "approved");
+                    updateStatus(o.orderId, "approved");
                   }}
                   className="bg-white text-green-600 px-2 py-1 rounded hover:bg-green-600 hover:text-white"
                 >
@@ -46,7 +61,7 @@ export default function ProviderSummaryCart() {
                 </button>
                 <button
                   onClick={() => {
-                    removeFromCart(c.id);
+                    updateStatus(o.orderId, "cancelled");
                   }}
                   className="bg-white text-red-600 px-2 py-1 rounded hover:bg-red-600 hover:text-white"
                 >
@@ -54,7 +69,7 @@ export default function ProviderSummaryCart() {
                 </button>
               </div>
             )}
-          </li>
+          </div>
         ))}
       </ul>
     </div>

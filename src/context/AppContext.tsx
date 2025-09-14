@@ -60,8 +60,9 @@ type CartItem = {
 type OrderItem = {
   orderId: string
   userId: number
+  listingId: number
   items: CartItem[]
-  status: "pending" | "approved" | "cenceled" | "complete"
+  status: "pending" | "approved" | "cancelled" | "complete"
   datetime: string
 }
 
@@ -73,7 +74,7 @@ type BookingItem = {
   serviceId: number;
   datetime: string;
   note?: string;
-  status: "pending" | "approved" | "cenceled" | "complete"
+  status: "pending" | "approved" | "cancelled" | "complete"
 };
 
 type ApplicationItem = {
@@ -121,7 +122,7 @@ type AppContextType = {
   clearCart: () => void;
 
   orderItem: OrderItem[]
-  createOrder: (cartItem: CartItem[], userId: number) => void
+  createOrder: (cartItem: CartItem[], userId: number, listingId: number) => void
   updateStatus: (id: string , status: OrderItem["status"]) => void
 
   bookings: BookingItem[];
@@ -223,10 +224,11 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   //OrderItem
-  const createOrder = (cartItems: CartItem[], userId: number)=>{
+  const createOrder = (cartItems: CartItem[], userId: number, listingId: number)=>{
     const newOder: OrderItem ={
       orderId: Date.now().toString(),
       userId,
+      listingId,
       items: cartItems,
       status:"pending",
       datetime: new Date().toISOString()

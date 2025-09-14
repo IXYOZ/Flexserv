@@ -8,6 +8,7 @@ import { useParams } from "next/navigation";
 import { useAppContext } from "@/context/AppContext";
 import ProviderSummaryCart from "@/components/summary/provider/ProviderSummaryCart";
 import OrderSummary from "@/components/summary/user/cart/OrderSummary";
+import { items, listings } from "@/lib/mockData";
 
 export default function SummaryPage() {
   const params = useParams();
@@ -21,9 +22,9 @@ export default function SummaryPage() {
 
   const handleNext = () => {
     if (!currentUser) return;
-
+    const listingId = cart[0].listingId
     if (cart.length > 0) {
-      createOrder(cart, currentUser.id);
+      createOrder(cart, currentUser.id,listingId);
       clearCart();
     }
 

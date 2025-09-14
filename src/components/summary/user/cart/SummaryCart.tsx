@@ -29,13 +29,6 @@ export default function SummaryCart() {
     );
   }
 
-  function createToOrder() {
-    const itemToOrder = userCart.filter((c) => selectedItems.includes(c.id))
-    if (itemToOrder.length === 0) return;
-    
-    createOrder(itemToOrder,Number(currentUser?.id));
-    setSelectedItems([])
-  }
 
   return (
     <div className="bg-gray-100 h-96 px-4 rounded ">
