@@ -25,7 +25,7 @@ export default function Booking() {
 
   const selectedService = services.filter(s => s.id === Number(serviceId))
   const listing = selectedService.find(ss => ss.id === Number(serviceId))
-  let listingId = Number(listing?.listingId)
+  const listingId = Number(listing?.listingId)
   
 
 
