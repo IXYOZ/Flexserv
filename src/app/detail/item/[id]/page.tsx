@@ -12,7 +12,6 @@ export default function ItemDetailPage() {
 
   const item = items.find((i) => i.id === Number(id));
   if (!item) return <div>No item</div>;
-  console.log(qty);
 
   return (
     <div>

@@ -69,6 +69,7 @@ type OrderItem = {
 type BookingItem = {
   id: number;
   userId: number;
+  listingId: number
   userName: string
   phone: string
   serviceId: number;
@@ -95,10 +96,12 @@ type ApplicationItem = {
 
 
 //Context type
+
 type AppContextType = {
   currentUser: User | null;
   setCurrentUser: (uesr: (typeof users)[number]| null) => void;
 
+  //provider
   items: CreateItem[]
   addItem:(item: CreateItem) => void
   updateItem:(id: number, updateItem: Partial<CreateItem>) => void
@@ -115,6 +118,7 @@ type AppContextType = {
   removeService: (id: number) => void
 
 
+  //user
   cart: CartItem[];
   addToCart: (item: CartItem) => void;
   updateItemQty: (id: string, qty: number) => void;
@@ -123,10 +127,11 @@ type AppContextType = {
 
   orderItem: OrderItem[]
   createOrder: (cartItem: CartItem[], userId: number, listingId: number) => void
-  updateStatus: (id: string , status: OrderItem["status"]) => void
+  updateOrderStatus: (id: string , status: OrderItem["status"]) => void
 
   bookings: BookingItem[];
   addBooking: (book: BookingItem) => void;
+  updateBookingStatus: (bookingId: number, status: BookingItem['status']) => void
   removeBooking: (id: number) => void;
 
   applications: ApplicationItem[];
@@ -238,10 +243,16 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
     // setCart(prev => prev.filter(c => !cartItems.some(ci => ci.id === c.id)))
   }
 
-  const updateStatus = (orderId: string, status: OrderItem["status"]) => {
+  const updateOrderStatus = (orderId: string, status: OrderItem["status"]) => {
     setOrderItem((prev) =>
       prev.map((order) =>
         order.orderId === orderId? {...order, status: status} : order
+      )
+    )
+  }
+  const updateBookingStatus = (bookingId: number, status: BookingItem["status"]) => {
+    setBookings((prev) =>
+      prev.map((booking) => booking.id === bookingId? {...booking, status: status} :booking
       )
     )
   }
@@ -297,7 +308,8 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
         removeFromCart,
         orderItem,
         createOrder,
-        updateStatus,
+        updateOrderStatus,
+        updateBookingStatus,
         clearCart,
         bookings,
         addBooking,

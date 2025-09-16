@@ -8,6 +8,8 @@ export default function Setting() {
   const { currentUser, setCurrentUser } = useAppContext();
   const router = useRouter();
 
+  let type = "order"
+
   if(!currentUser) return 
 
 
@@ -19,7 +21,7 @@ export default function Setting() {
     <div >
       <DropDown
         label="🔧"
-        options={["Profile","Type : "+currentUser?.type, "Account setting", "Manage product", "Logout"]}
+        options={["Profile","Type : "+currentUser?.type, "Account setting", "Manage product", "See orders", "Logout"]}
         onSelect={(value) => {
           switch (value) {
             case "Profile":
@@ -30,6 +32,9 @@ export default function Setting() {
                 break
             case 'Manage product':
                 router.push(`/provider`)
+                break
+            case 'See orders':
+                router.push(`/summary/${type}`)
                 break
             case 'Logout':
                 setCurrentUser(null)

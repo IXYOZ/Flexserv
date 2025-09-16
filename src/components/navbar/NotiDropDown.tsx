@@ -54,7 +54,7 @@ export default function NotiDropDown() {
   const noti = filteredCart.length + filteredBooking.length + filteredApplication.length;
 
   const itemType = [
-    { type: "cart", label: "Cart", count: filteredCart.length },
+    (currentUser.type ==="provider"? { type: "order", label: "Order", count: filteredCart.length }:{ type: "cart", label: "Cart", count: filteredCart.length }),
     { type: "booking", label: "Booking", count: filteredBooking.length },
     { type: "application", label: "Application", count: filteredApplication.length },
   ];

@@ -14,7 +14,7 @@ export default function SummaryCart() {
 
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
-  if(!currentUser) return null
+  if (!currentUser) return null;
 
   const userCart = cart.filter((c) => c.userId === currentUser?.id);
 
@@ -29,47 +29,62 @@ export default function SummaryCart() {
     );
   }
 
-
   return (
-    <div className="bg-gray-100 h-96 px-4 rounded ">
-      <h2 className="font-semibold text-xl text-center border p-3">
-        Your Cart summary
-      </h2>
-      <ul className="grid grid-rows-3 md:grid-rows-6">
-        {userCart.map((c) => (
-          <li
-            key={c.id}
-            className="flex justify-between items-center border-b pb-1 pt-2 item-le"
-          >
-            <input
-              type="checkbox"
-              checked={selectedItems.includes(c.id)}
-              onChange={(e) => {toggleSelect(c.id)}}
-            />
-            <span>{c.id}</span>
-            <span className="text-black">{c.itemName}</span>
-            <span className="text-black">${c.price * c.quantity} :</span>
-            <div className="">
-              <input
-                value={c.quantity}
-                onChange={(e) => {
-                  updateQty(c.id, Number(e.target.value));
-                }}
-                type="number"
-                min={1}
-                max={999}
-                onBlur={() => {
-                  if (c.quantity < 1) updateItemQty(c.id, 1);
-                }}
-                className="bg-white text-black text-center max-w-8"
-              />
-            </div>
-            <div className="flex justify-center">
-              <button onClick={() => removeFromCart(c.id)}>Remove</button>
-            </div>
-          </li>
-        ))}
-      </ul>
+    <div className="bg-gray-100 rounded p-4 max-h-[80vh] overflow-y-auto">
+      <div>
+        <h1 className="font-semibold text-lg text-center mb-4">
+          Your cart summary
+        </h1>
+      </div>
+
+      {userCart.length === 0 ? (
+        <p className="text-center text-gray-500">No Items yet</p>
+      ) : (
+        <ul className="grid grid-rows-3 md:grid-rows-6">
+          {userCart.map((c) => (
+            <li
+              key={c.id}
+              className="bg-white rounded-2xl shadow p-3 flex flex-col gap-2"
+            >
+              <div>
+                <input
+                  type="checkbox"
+                  checked={selectedItems.includes(c.id)}
+                  onChange={(e) => {
+                    toggleSelect(c.id);
+                  }}
+                />
+              </div>
+
+              <div className="flex flex-col gap-1">
+                <span className="">{c.itemName}</span>
+                <div className="flex justify-between">
+                  <span className="">Total: {c.price * c.quantity}$</span>
+                  <div className="flex space-x-2">
+                  <input
+                    value={c.quantity}
+                    onChange={(e) => {
+                      updateQty(c.id, Number(e.target.value));
+                    }}
+                    type="number"
+                    min={1}
+                    max={999}
+                    onBlur={() => {
+                      if (c.quantity < 1) updateItemQty(c.id, 1);
+                    }}
+                    className="bg-white text-black text-center max-w-8"
+                  />
+                  <p>ea</p>
+                  </div>
+                </div>
+              </div>
+              <div className="flex-1 justify-center text-center bg-red-500 text-white py-1 rounded hover:bg-red-600 transition">
+                <button onClick={() => removeFromCart(c.id)}>Remove</button>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }

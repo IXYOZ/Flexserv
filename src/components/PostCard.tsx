@@ -1,5 +1,7 @@
 "use client";
 
+import { useAppContext } from "@/context/AppContext";
+import { posts, users } from "@/lib/mockData";
 import { useRouter } from "next/navigation";
 
 type Post = {
@@ -11,14 +13,17 @@ type Post = {
   avatar: string;
 };
 
+
 export default function PostCard({ post }: { post: Post }) {
   const router = useRouter();
+  const {currentUser} = useAppContext()
 
+  const postId = posts.find(p => p.id === post.id)
+  const profileId = users.find(u => u.id === postId?.authorId)
 
   return (
     <div
-      className="rounded-xl bg-blue-300 hover:shadow-md cursor-pointer gap-4"
-      onClick={() => router.push(`/detail/${post.type}/${post.id}`)}
+      className="rounded-xl bg-blue-300 hover:shadow-md gap-4"
     >
       <div className="flex items-center bg-blue-500 rounded-t-2xl gap-4">
         <div className=" p-2 flex gap-4">
@@ -27,7 +32,7 @@ export default function PostCard({ post }: { post: Post }) {
           alt={post.author}
           className="w-10 h-10 rounded-full"
         />
-        <h3 className="font-semibold ">{post.author}</h3>
+        <h3 className="font-semibold hover:underline cursor-pointer" onClick={() => router.push(`/profile/${profileId?.id}`)}>{post.author}</h3>
         </div>
       </div>
       <div className="w-full rounded px-2 pb-3 pt-2">
@@ -36,6 +41,9 @@ export default function PostCard({ post }: { post: Post }) {
         <div className="pt-5">
             <div className="bg-white h-134">
               Images
+            </div>
+            <div className="cursor-pointer pt-1" onClick={() => router.push(`/detail/${post.type}/${postId?.id}`)}>
+              <span className="hover:font-semibold">More details</span>
             </div>
         </div>
       </div>

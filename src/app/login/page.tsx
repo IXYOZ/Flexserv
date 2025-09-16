@@ -18,11 +18,11 @@ export default function LoginPage() {
   };
 
   return (
-    <div>
+    <div className="p-2">
       <p className="text-gray-500">Choose one for login as: </p>
       {users.map((u) => (
         <div key={u.id} className="py-2">
-          <button key={u.id} onClick={() => handleLogin(u.id)} className="border bg-blue-600 p-2 rounded-2xl">
+          <button key={u.id} onClick={() => handleLogin(u.id)} className=" bg-white p-1 rounded-xl shadow-lg hover:scale-120">
           <p className="gap-5">  {u.name}</p>
         </button>
         </div>

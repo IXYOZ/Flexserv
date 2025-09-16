@@ -1,17 +1,23 @@
 import Link from "next/link"
-import { users as users, listings, services } from "@/lib/mockData"
+import { users as users, listings, services, posts } from "@/lib/mockData"
 import { useParams } from "next/navigation"
+import { useAppContext } from "@/context/AppContext"
 
 
 
 
 
 export default function ProfileCard() {
-  const {id} = useParams()
-  const author = users.find((u) => u.id === Number(id))
-  if(!author) return <div>User not found</div>
+  const params = useParams<{id: string}>()
+  const postId = Number(params.id )
 
-  const listing = listings.find(l => l.authorId === author.id)
+  console.log("params: ", params)
+  console.log("params.postId: ", postId)
+  const post = posts.find(p => p.id === postId)
+  const author = users.find(u => u.id === post?.authorId)
+  const listing = listings.find(l => l.authorId === author?.id)
+
+  if(!author) return <div>User not found</div>
   return (
     <Link
             href={`/profile/${author.id}`}

@@ -2,18 +2,16 @@ import { useAppContext } from "@/context/AppContext";
 import React, { useState } from "react";
 import { DateInput } from "@heroui/date-input";
 import { useRouter,useParams } from "next/navigation";
+import { listings } from "@/lib/mockData";
 
-interface BookingProps {
-  postId: number;
-  serviceId?: number;
-}
 
-export default function Booking({ postId }: BookingProps) {
+export default function Booking() {
   const context = useAppContext();
   const router = useRouter();
-  const params = useParams()
+  const {id} = useParams()
+  const serviceId = Number(id)
 
-  const {id} = params
+
 
   const [showBookingForm, setShowBookingForm] = useState(false);
   const [formData, setFormData] = useState({
@@ -22,7 +20,18 @@ export default function Booking({ postId }: BookingProps) {
     date: "",
   });
 
-  const { bookings,addBooking, removeBooking, currentUser } = context;
+  const { bookings,addBooking, services, removeBooking, currentUser } = context;
+
+
+  const selectedService = services.filter(s => s.id === Number(serviceId))
+  const listing = selectedService.find(ss => ss.id === Number(serviceId))
+  let listingId = Number(listing?.listingId)
+  
+
+
+  if(!selectedService) return <div>Service not found</div>
+
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -35,16 +44,20 @@ export default function Booking({ postId }: BookingProps) {
       router.push("/login");
     } else {
       addBooking ( {
-        id: Number(Date.now),
+        id: Date.now(),
         userId: currentUser?.id,
         userName: currentUser?.name,
         phone: currentUser?.phone,
-        serviceId: Number(id),
+        serviceId: Number(serviceId),
         datetime: formData.date,
         note: formData.note,
-        status: "pending"
+        status: "pending",
+        listingId: listingId
       })
+      if(!listing) return <div>No listing</div>
+      console.log("Listing: ",listing)
       alert("Booked");
+      
       router.push('/summary/booking')
     }
   };
@@ -60,6 +73,12 @@ export default function Booking({ postId }: BookingProps) {
   return (
     <div className="border p-4 rounded shadow-md space-y-2">
       <h3 className="font-semibold text-lg mb-2 text-black">Make bookings</h3>
+      {selectedService.map(s => (
+        <div key={s.id} className="flex space-x-4">
+          <h2 className="font-semibold">{s.name}</h2>
+          <span>{s.price}$/hr</span>
+        </div>
+      ))}
       <button
         onClick={handleBook}
         className="border bg-white text-black rounded px-1 hover:bg-green-500 hover:text-white"

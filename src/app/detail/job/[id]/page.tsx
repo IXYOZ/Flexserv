@@ -26,7 +26,6 @@ export default function JobDetailPage() {
   //const { applications, applyApplication, removeApplication } = context;
 
   const job = jobs.find((j) => j.id === Number(id));
-  console.log(job?.id);
 
   return (
     <div className="flex justify-center min-h-screen bg-gray-100">
