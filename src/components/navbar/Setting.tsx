@@ -8,7 +8,7 @@ export default function Setting() {
   const { currentUser, setCurrentUser } = useAppContext();
   const router = useRouter();
 
-  let type = "order"
+  const type = "order"
 
   if(!currentUser) return 
 
