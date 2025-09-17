@@ -7,12 +7,10 @@ import { useState } from "react";
 
 export default function SummaryCart() {
   const context = useAppContext();
-  const router = useRouter();
 
-  const { currentUser, cart, createOrder, updateItemQty, removeFromCart } =
+  const { currentUser, cart, toggleSelect, updateItemQty, removeFromCart } =
     context;
 
-  const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
   if (!currentUser) return null;
 
@@ -23,11 +21,6 @@ export default function SummaryCart() {
     updateItemQty(id, qty);
   }
 
-  function toggleSelect(id: string) {
-    setSelectedItems((prev) =>
-      prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
-    );
-  }
 
   return (
     <div className="bg-gray-100 rounded p-4 max-h-[80vh] overflow-y-auto">
@@ -49,8 +42,8 @@ export default function SummaryCart() {
               <div>
                 <input
                   type="checkbox"
-                  checked={selectedItems.includes(c.id)}
-                  onChange={(e) => {
+                  checked={c.selectedItem}
+                  onChange={() => {
                     toggleSelect(c.id);
                   }}
                 />

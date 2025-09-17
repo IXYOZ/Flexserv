@@ -4,6 +4,7 @@ import { users, listings, services } from "@/lib/mockData";
 import { useParams } from "next/navigation";
 import ListingCard from "@/components/ListingCard";
 import ServiceCard from "@/components/product/ServiceCard";
+import ItemCard from "@/components/product/ItemCard"
 
 export default function ProfilePage() {
   const { userId } = useParams();
@@ -40,6 +41,7 @@ export default function ProfilePage() {
       )}
       <div>
         <ServiceCard serviceId={Number(userId)}/>
+        <ItemCard  itemId={Number(userId)}/>
       </div>
     </div>
   );

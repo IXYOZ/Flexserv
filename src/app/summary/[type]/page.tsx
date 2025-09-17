@@ -15,19 +15,30 @@ export default function SummaryPage() {
   const params = useParams();
   const type = params?.type
 
-  const { cart, currentUser, createOrder, clearCart } = useAppContext();
+  const { cart, currentUser,orderItem, createOrder, clearCart } = useAppContext();
 
   const [activeType, setActiveType] = useState(type);
   const [ShowBackBtn, setShowBackBtn] = useState(false);
   const [ShowNextBtn, setShowNextBtn] = useState(true);
 
+
   const handleNext = () => {
     if (!currentUser) return;
-    const listingId = cart[0].listingId;
-    if (cart.length > 0) {
-      createOrder(cart, currentUser.id, listingId);
-      //clearCart();
+    const selected = cart.filter((c) => c.selectedItem)
+    if(selected.length === 0){
+      alert("please select at least one item")
+      return
     }
+    const duplicate = selected.filter((s) => orderItem.some((o) => o.items.some((i) => i.id === s.id)))
+    if(duplicate.length > 0){
+      alert("You have already ordered this item")
+      return
+    }
+    const listingId = cart[0].listingId;
+    createOrder(cart, currentUser.id, listingId);
+    
+    clearCart()
+
     setActiveType("order");
     setShowBackBtn(true);
   };

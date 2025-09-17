@@ -54,6 +54,7 @@ type CartItem = {
   price: number;
   quantity: number;
   datetime: string;
+  selectedItem: boolean
   
 };
 
@@ -124,6 +125,9 @@ type AppContextType = {
   updateItemQty: (id: string, qty: number) => void;
   removeFromCart: (id: string) => void;
   clearCart: () => void;
+  selectedItems: string[]
+  setSelectedItems: React.Dispatch<React.SetStateAction<string[]>>
+  toggleSelect: (id: string) => void
 
   orderItem: OrderItem[]
   createOrder: (cartItem: CartItem[], userId: number, listingId: number) => void
@@ -160,6 +164,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
   const [orderItem, setOrderItem] = useState<OrderItem[]>([])
   const [bookings, setBookings] = useState<BookingItem[]>([]);
   const [applications, setApplications] = useState<ApplicationItem[]>([]);
+  const [selectedItems, setSelectedItems] = useState<string[]>([])
   
   //item
   const addItem = (item: CreateItem) => {
@@ -171,6 +176,11 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
   }
   const removeItem = (id: number) => {
     setItems((prev) => prev.filter((i) => i.id !== id))
+  }
+  const toggleSelect =(id:string) =>{
+    setCart((prev) =>
+    prev.map((item) =>
+    item.id === id ? {...item, selectedItem: !item.selectedItem}: item))
   }
 
   
@@ -257,11 +267,16 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
     )
   }
 
+  
+
 
   const removeFromCart = (id: string) => {
     setCart((prev) => prev.filter((s) => s.id !== id));
   };
-  const clearCart = () => setCart([]);
+
+  const clearCart = () => {
+    setCart((prev) => prev.filter((c) => !c.selectedItem))
+  }
 
 
   //bookings
@@ -291,6 +306,9 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
         addItem,
         updateItem,
         removeItem,
+        selectedItems,
+        setSelectedItems,
+        toggleSelect,
         ////////////////
         jobs,
         addJob,

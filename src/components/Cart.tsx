@@ -46,6 +46,7 @@ export default function Cart() {
       price: item.price,
       quantity: newQuantity,
       datetime: "",
+      selectedItem: false
     })
     setShowAddBtn(false)
     setShowCart(true);

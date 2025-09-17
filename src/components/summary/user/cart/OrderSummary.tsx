@@ -6,7 +6,7 @@ import { div, li } from "framer-motion/client";
 export default function OrderSummary() {
   const context = useAppContext();
 
-  const { currentUser, orderItem } = context;
+  const { currentUser, orderItem, removeFromCart } = context;
 
   if (!currentUser) return null;
   const orders = orderItem.filter((c) => c.userId === currentUser.id);
