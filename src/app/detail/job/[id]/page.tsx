@@ -2,7 +2,7 @@
 
 import Application from "@/components/Application";
 import { useAppContext } from "@/context/AppContext";
-import { jobs } from "@/lib/mockData";
+import { listings } from "@/lib/mockData";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -12,7 +12,8 @@ export default function JobDetailPage() {
   const [showApplication, setShowApplication] = useState(false);
   const router = useRouter()
 
-  const {currentUser} = context
+  const {currentUser, jobs} = context
+
 
   const handelOnClick = () => {
     if(!currentUser){
@@ -26,6 +27,8 @@ export default function JobDetailPage() {
   //const { applications, applyApplication, removeApplication } = context;
 
   const job = jobs.find((j) => j.id === Number(id));
+  if(!job) return <div>Job not found</div>
+  const listing = listings.find(l => l.id === job?.listingId)
 
   return (
     <div className="flex justify-center min-h-screen bg-gray-100">

@@ -1,7 +1,7 @@
 "use client";
 
 import { useAppContext } from "@/context/AppContext";
-import { items, listings } from "@/lib/mockData";
+import {  listings } from "@/lib/mockData";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
@@ -20,30 +20,33 @@ export default function Cart() {
     removeFromCart,
     clearCart,
     currentUser,
+    items
   } = context;
 
   
-  if (!context) return <div>No items context found</div>;
+  if (!context) return <div>Items not found</div>;
   
-  const item = items.find((i) => i.id === Number(id));
+  const item = items.find(i => i.id === Number(id))
+  if(!item) return <div>Not found item</div>
   const cartItem = cart.find((c) => c.id === `${currentUser?.id}-${item?.id}`);
 
-  if (!item) return <div>No Item</div>;
+  
   const addItemToCard = () => {
     if (!currentUser) {
       alert("Please login");
       router.push("/login");
       return;
-    }
-    const newQuantity = cartItem ? cartItem.quantity + 1 : 1;
+      }
+      const newQuantity = cartItem ? cartItem.quantity + 1 : 1;
+     
     addToCart ({
-      id: `${currentUser.id}-${item.id}`,
+      id: `${currentUser.id}-${item?.id}`,
       userId: currentUser.id,
       userName: currentUser.name,
-      listingId: item.listingId,
-      itemId: item.id,
-      itemName: item.name,
-      price: item.price,
+      listingId: item?.listingId,
+      itemId: item?.id,
+      itemName: item?.name,
+      price: item?.price,
       quantity: newQuantity,
       datetime: "",
       selectedItem: false
@@ -59,6 +62,10 @@ export default function Cart() {
 
   return (
     <div>
+      <div>
+        <h2>{item.name}</h2>
+        <p>{item.price}</p>
+      </div>
       {showAddBtn&& (
         <button
         onClick={addItemToCard}

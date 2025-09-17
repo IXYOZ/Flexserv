@@ -2,14 +2,18 @@
 
 import Booking from "@/components/Booking";
 import ProfileCard from "@/components/ProfileCard";
-import { services } from "@/lib/mockData";
+import { useAppContext } from "@/context/AppContext";
+import { listings} from "@/lib/mockData";
 import { useParams } from "next/navigation";
 
 export default function ServiceDetailPage() {
   const { id } = useParams();
+  const {services} = useAppContext()
 
-  const service = services.filter((s) => s.id === Number(id));
-  if (!service) return <div>No service</div>;
+  const product = services.find((s) => s.id === Number(id));
+  if (!product) return <div>No service</div>;
+
+  const listing = listings.find(l => l.id === product.listingId)
 
   return (
     <div className="flex justify-center ">
@@ -20,7 +24,8 @@ export default function ServiceDetailPage() {
           </div>
         </div>
         <div className="py-5 max-w-4xl">
-        <ProfileCard/>
+          {listing && <ProfileCard authorId={listing.authorId}/>}
+        
         </div>
       </div>
     </div>

@@ -5,12 +5,12 @@ import { listings } from "@/lib/mockData";
 import { useRouter } from "next/navigation";
 
 
-export default function ServiceCard({ serviceId }: { serviceId: number }) {
+export default function ServiceCard({ listingId }: { listingId: number }) {
   const { services } = useAppContext();
   const router = useRouter()
 
-  const listingId = listings.find((f) => f.authorId === serviceId);
-  const service = services.filter((s) => s.listingId === listingId?.id);
+  const listing = listings.find((f) => f.authorId === listingId);
+  const service = services.filter((s) => s.listingId === listing?.id);
 
   return (
     <div className="pt-2 ">

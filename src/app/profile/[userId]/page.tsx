@@ -5,9 +5,11 @@ import { useParams } from "next/navigation";
 import ListingCard from "@/components/ListingCard";
 import ServiceCard from "@/components/product/ServiceCard";
 import ItemCard from "@/components/product/ItemCard"
+import JobCard from "@/components/product/JobCard";
 
 export default function ProfilePage() {
   const { userId } = useParams();
+
 
   const user = users.find((u) => u.id === Number(userId));
   if (!user) return <div>User not found</div>;
@@ -40,8 +42,9 @@ export default function ProfilePage() {
         </>
       )}
       <div>
-        <ServiceCard serviceId={Number(userId)}/>
-        <ItemCard  itemId={Number(userId)}/>
+        <ServiceCard listingId={Number(userId)}/>
+        <ItemCard  listingId={Number(userId)}/>
+        <JobCard listingId={Number(userId)}/>
       </div>
     </div>
   );

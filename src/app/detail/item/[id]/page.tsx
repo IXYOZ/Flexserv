@@ -2,32 +2,31 @@
 
 import Cart from "@/components/Cart";
 import ProfileCard from "@/components/ProfileCard";
-import { items } from "@/lib/mockData";
+import { useAppContext } from "@/context/AppContext";
+import { listings } from "@/lib/mockData";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 
 export default function ItemDetailPage() {
-  const { id } = useParams();
-  const [qty, setQty] = useState(1);
+  const { id} = useParams<{id: string}>();
+  const {items} = useAppContext()
 
-  const item = items.find((i) => i.id === Number(id));
-  if (!item) return <div>No item</div>;
+  const product = items.find((i) => i.id === Number(id));
+  if (!product) return <div>No item</div>;
 
+  const listing = listings.find(l => l.id === product.listingId)
+
+  
   return (
     <div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-gray-200 rounded p-2">
-        <div className="p-2 text-black">Picture</div>
         <div className="bg-gray-400 rounded p-2">
-          <h2>{item.name}</h2>
-          <p>{item.description}</p>
-          <div className="grid grid-cols-2">
-            <p>${item.price}</p>
-          </div>
           <Cart />
         </div>
       </div>
       <div className="py-5 max-w-4xl">
-        <ProfileCard />
+       {listing&& <ProfileCard authorId = {listing?.authorId} />}
+        
       </div>
     </div>
   );
